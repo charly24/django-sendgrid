@@ -317,8 +317,8 @@ class EmailMessage(models.Model):
 
 
 class UniqueArgument(models.Model):
-    argument = models.ForeignKey(Argument)
-    email_message = models.ForeignKey(EmailMessage)
+    argument = models.ForeignKey(Argument, on_delete=models.CASCADE)
+    email_message = models.ForeignKey(EmailMessage, on_delete=models.CASCADE)
     data = models.CharField(max_length=UNIQUE_ARGUMENT_DATA_MAX_LENGTH)
     creation_time = models.DateTimeField(auto_now_add=True)
     last_modified_time = models.DateTimeField(auto_now=True)
@@ -349,7 +349,7 @@ class UniqueArgument(models.Model):
 
 
 class EmailMessageSubjectData(models.Model):
-    email_message = models.OneToOneField(EmailMessage, primary_key=True, related_name="subject")
+    email_message = models.OneToOneField(EmailMessage, on_delete=models.CASCADE, primary_key=True, related_name="subject")
     data = models.TextField(_("Subject"), editable=False)
 
     class Meta:
@@ -362,7 +362,7 @@ class EmailMessageSubjectData(models.Model):
 
 class EmailMessageSendGridHeadersData(models.Model):
     email_message = models.OneToOneField(
-        EmailMessage, primary_key=True, related_name="sendgrid_headers")
+        EmailMessage, on_delete=models.CASCADE, primary_key=True, related_name="sendgrid_headers")
     data = models.TextField(_("SendGrid Headers"), editable=False)
 
     class Meta:
@@ -375,7 +375,7 @@ class EmailMessageSendGridHeadersData(models.Model):
 
 class EmailMessageExtraHeadersData(models.Model):
     email_message = models.OneToOneField(
-        EmailMessage, primary_key=True, related_name="extra_headers")
+        EmailMessage, on_delete=models.CASCADE, primary_key=True, related_name="extra_headers")
     data = models.TextField(_("Extra Headers"), editable=False)
 
     class Meta:
@@ -387,7 +387,7 @@ class EmailMessageExtraHeadersData(models.Model):
 
 
 class EmailMessageBodyData(models.Model):
-    email_message = models.OneToOneField(EmailMessage, primary_key=True, related_name="body")
+    email_message = models.OneToOneField(EmailMessage, on_delete=models.CASCADE, primary_key=True, related_name="body")
     data = models.TextField(_("Body"), editable=False)
 
     class Meta:
@@ -399,7 +399,8 @@ class EmailMessageBodyData(models.Model):
 
 
 class EmailMessageAttachmentsData(models.Model):
-    email_message = models.OneToOneField(EmailMessage, primary_key=True, related_name="attachments")
+    email_message = models.OneToOneField(
+        EmailMessage, on_delete=models.CASCADE, primary_key=True, related_name="attachments")
     data = models.TextField(_("Attachments"), editable=False)
 
     class Meta:
@@ -411,7 +412,7 @@ class EmailMessageAttachmentsData(models.Model):
 
 
 class EmailMessageBccData(models.Model):
-    email_message = models.OneToOneField(EmailMessage, primary_key=True, related_name="bcc")
+    email_message = models.OneToOneField(EmailMessage, on_delete=models.CASCADE, primary_key=True, related_name="bcc")
     data = models.TextField(_("Blind Carbon Copies"), editable=False)
 
     class Meta:
@@ -423,7 +424,7 @@ class EmailMessageBccData(models.Model):
 
 
 class EmailMessageCcData(models.Model):
-    email_message = models.OneToOneField(EmailMessage, primary_key=True, related_name="cc")
+    email_message = models.OneToOneField(EmailMessage, on_delete=models.CASCADE, primary_key=True, related_name="cc")
     data = models.TextField(_("Carbon Copies"), editable=False)
 
     class Meta:
@@ -435,7 +436,7 @@ class EmailMessageCcData(models.Model):
 
 
 class EmailMessageToData(models.Model):
-    email_message = models.OneToOneField(EmailMessage, primary_key=True, related_name="to")
+    email_message = models.OneToOneField(EmailMessage, on_delete=models.CASCADE, primary_key=True, related_name="to")
     data = models.TextField(_("To"), editable=False)
 
     class Meta:
@@ -458,9 +459,9 @@ class EventType(models.Model):
 
 
 class Event(models.Model):
-    email_message = models.ForeignKey(EmailMessage)
+    email_message = models.ForeignKey(EmailMessage, on_delete=models.CASCADE)
     email = models.EmailField()
-    event_type = models.ForeignKey(EventType)
+    event_type = models.ForeignKey(EventType, on_delete=models.CASCADE)
     creation_time = models.DateTimeField(auto_now_add=True)
     last_modified_time = models.DateTimeField(auto_now=True)
     # this column should always be populated by sendgrids mandatory timestamp param
@@ -485,7 +486,7 @@ class ClickUrl(models.Model):
 
 
 class ClickEvent(Event):
-    click_url = models.ForeignKey(ClickUrl)
+    click_url = models.ForeignKey(ClickUrl, on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = ("Click Event")
@@ -523,8 +524,8 @@ class BounceType(models.Model):
 
 class BounceEvent(Event):
     status = models.CharField(max_length=16)
-    bounce_reason = models.ForeignKey(BounceReason, null=True)
-    bounce_type = models.ForeignKey(BounceType, null=True)
+    bounce_reason = models.ForeignKey(BounceReason, on_delete=models.CASCADE, null=True)
+    bounce_type = models.ForeignKey(BounceType, on_delete=models.CASCADE, null=True)
 
     class Meta:
         verbose_name = _("Bounce Event")
