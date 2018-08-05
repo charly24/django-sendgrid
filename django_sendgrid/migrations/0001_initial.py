@@ -1,14 +1,3 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
-from django.core.management import call_command
-from django.db import migrations, models
-
-
-def load_fixture(apps, schema_editor):
-    call_command('loaddata', 'sendgrid_eventtype.json')
-
-
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -35,6 +24,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(primary_key=True, auto_created=True, verbose_name='ID', serialize=False)),
                 ('reason', models.TextField()),
             ],
+            options={'verbose_name': 'Bounce Reason', 'verbose_name_plural': 'Bounce Reasons'},
         ),
         migrations.CreateModel(
             name='BounceType',
@@ -42,6 +32,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(primary_key=True, auto_created=True, verbose_name='ID', serialize=False)),
                 ('type', models.CharField(unique=True, max_length=32)),
             ],
+            options={'verbose_name': 'Bounce Type', 'verbose_name_plural': 'Bounce Types'},
         ),
         migrations.CreateModel(
             name='Category',
@@ -62,6 +53,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(primary_key=True, auto_created=True, verbose_name='ID', serialize=False)),
                 ('url', models.TextField()),
             ],
+            options={'verbose_name': 'Click Url', 'verbose_name_plural': 'Click Urls'},
         ),
         migrations.CreateModel(
             name='EmailMessage',
@@ -100,6 +92,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(primary_key=True, auto_created=True, verbose_name='ID', serialize=False)),
                 ('name', models.CharField(unique=True, max_length=128)),
             ],
+            options={'verbose_name': 'Event Type', 'verbose_name_plural': 'Event Types'},
         ),
         migrations.CreateModel(
             name='UniqueArgument',
@@ -149,6 +142,7 @@ class Migration(migrations.Migration):
                 ('attempt', models.IntegerField()),
             ],
             bases=('django_sendgrid.event',),
+            options={'verbose_name': 'Deferred Event', 'verbose_name_plural': 'Deferred Events'},
         ),
         migrations.CreateModel(
             name='DeliverredEvent',
@@ -157,6 +151,7 @@ class Migration(migrations.Migration):
                 ('response', models.TextField()),
             ],
             bases=('django_sendgrid.event',),
+            options={'verbose_name': 'Deliverred Event', 'verbose_name_plural': 'Deliverred Events'},
         ),
         migrations.CreateModel(
             name='DroppedEvent',
@@ -165,6 +160,7 @@ class Migration(migrations.Migration):
                 ('reason', models.CharField(max_length=255)),
             ],
             bases=('django_sendgrid.event',),
+            options={'verbose_name': 'Dropped Event', 'verbose_name_plural': 'Dropped Events'},
         ),
         migrations.CreateModel(
             name='EmailMessageAttachmentsData',
