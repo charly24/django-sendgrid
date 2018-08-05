@@ -1,3 +1,14 @@
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
+from django.core.management import call_command
+from django.db import migrations, models
+
+
+def load_fixture(apps, schema_editor):
+    call_command('loaddata', 'sendgrid_eventtype.json')
+
+
 class Migration(migrations.Migration):
 
     dependencies = [
